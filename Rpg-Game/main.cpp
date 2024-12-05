@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "Skeleton.h"
+#include "FrameRate.h"
 
 
 
@@ -15,11 +16,14 @@ int main()
     window.setFramerateLimit(240);
     //---------------------------------- INITIALIZE -----------------------
     
+    
+    FrameRate frameRate;
     Player player;
     Skeleton skeleton;
     
     //---------------------------------- INITIALIZE -----------------------
 
+    frameRate.Initialize();
     player.Initialize();
     skeleton.Initialize();
     
@@ -27,6 +31,8 @@ int main()
 
 
     //---------------------------------- LOAD -----------------------
+    
+    frameRate.Load();
     player.Load();
     skeleton.Load();
 
@@ -39,7 +45,8 @@ int main()
         //---------------------------------- UPDATE -----------------------
         
         sf::Time deltaTimeTimer = clock.restart();
-        float deltaTime = deltaTimeTimer.asMilliseconds();
+        double deltaTime = deltaTimeTimer.asMicroseconds() /1000.0f;
+        
 
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -47,7 +54,7 @@ int main()
                 window.close();
         }
 
-
+        frameRate.Update(deltaTime);
         skeleton.Update(deltaTime);
         player.Update(deltaTime, skeleton);
     
@@ -57,6 +64,7 @@ int main()
         
         player.Draw(window);
         skeleton.Draw(window);
+        frameRate.Draw(window);
 
         window.display();
 
