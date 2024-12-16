@@ -74,7 +74,6 @@ void Player::Update(float deltaTime, Skeleton& skeleton, sf::Vector2f& mousePos)
 
     for (size_t i = 0; i < bullets.size(); i++)
     {
-
         bullets[i].Update(deltaTime);
 
         if (skeleton.health > 0) {
